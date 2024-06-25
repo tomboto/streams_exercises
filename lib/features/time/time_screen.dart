@@ -15,8 +15,12 @@ class TimeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Time Screen'),
       ),
-      body: const Center(
-        child: Text("Hier soll die Uhrzeit stehen"),
+      body: Center(
+        child: StreamBuilder<DateTime>(
+            stream: timeRepository.dateTimeStream,
+            builder: (context, snapshot) {
+              return Text(snapshot.data.toString());
+            }),
       ),
     );
   }
