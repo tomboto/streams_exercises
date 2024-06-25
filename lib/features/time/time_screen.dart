@@ -19,7 +19,15 @@ class TimeScreen extends StatelessWidget {
         child: StreamBuilder<DateTime>(
             stream: timeRepository.dateTimeStream,
             builder: (context, snapshot) {
-              return Text(snapshot.data.toString());
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else if (!snapshot.hasData || snapshot.data == null) {
+                return const Text('Keine Zahlen');
+              } else {
+                return Text(snapshot.data.toString());
+              }
             }),
       ),
     );
